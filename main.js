@@ -11,7 +11,13 @@ $('#note').on('submit', function(ev){
   ev.preventDefault()
   $.post('https://damp-depths-50705.herokuapp.com/api/notes/',
   $(this).serialize())
-})
+  .then(function(r){
+    var display = note_template(r.note)
+    $('#notes').prepend(display)
+    clear_form('#note')
+    })
+  }) 
+
 
 $('#notes').on('click', '.tag', function(ev){
   ev.preventDefault()
@@ -47,3 +53,7 @@ var modal_template = Handlebars.compile(modal_source);
 
 var notes_source = $("#note_template").html();
 var note_template = Handlebars.compile(notes_source)
+
+function clear_form(selector){
+  $(selector)[0].reset()
+}
